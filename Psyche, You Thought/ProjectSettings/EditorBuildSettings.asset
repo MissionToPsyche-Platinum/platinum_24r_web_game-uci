@@ -6,8 +6,32 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Start.unity
+    guid: a8c62dc50968418428212d62485dbcb7
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Minigame 1.unity
+    guid: 3063b44383f21f947a62d84168ebc6a4
+  - enabled: 1
+    path: Assets/Scenes/Minigame 2.unity
+    guid: 8ca13d9efa09ab64db263e868242ab3d
+  - enabled: 1
+    path: Assets/Scenes/Minigame 3.unity
+    guid: 519679816ed8b324e9dd8f6ef2eb8da2
+  - enabled: 1
+    path: Assets/Scenes/Minigame 4.unity
+    guid: 1ad1b416af1a1a84c8d4b471e6a15eaa
+  - enabled: 1
+    path: Assets/Scenes/Minigame 5.unity
+    guid: a78ee95c00105e840bc87cbb8c27fb65
+  - enabled: 1
+    path: Assets/Scenes/Minigame 6.unity
+    guid: 53d84aca0bd1b6a45a9380311e1a382e
+  - enabled: 1
+    path: Assets/Scenes/End.unity
+    guid: da265ad25d81e2243808f60b3a7617ec
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

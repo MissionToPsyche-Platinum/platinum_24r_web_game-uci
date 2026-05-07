@@ -46,7 +46,7 @@ public class SpaceInvaderShip : MonoBehaviour
 
     void fireProjectile()
     {
-        if (Keyboard.current.spaceKey.isPressed)
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             projectileClone = Instantiate(projectile, new Vector3(player.transform.position.x, player.transform.position.y + 0.8f, 0), player.transform.rotation) as GameObject;
         }

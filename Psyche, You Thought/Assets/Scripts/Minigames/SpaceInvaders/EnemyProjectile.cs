@@ -22,7 +22,7 @@ public class EnemyProjectile : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Destroy(enemyProjectile);
-            controller.Finish();
+            controller.PlayerHit();
         }
         if (collision.gameObject.tag == "Finish")
         {

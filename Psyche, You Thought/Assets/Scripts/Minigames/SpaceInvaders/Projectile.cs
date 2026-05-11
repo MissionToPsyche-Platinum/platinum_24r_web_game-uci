@@ -3,10 +3,11 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public GameObject projectile;
+    private SpaceInvadersController controller;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        controller = FindFirstObjectByType<SpaceInvadersController>();
     }
 
     // Update is called once per frame
@@ -21,6 +22,7 @@ public class Projectile : MonoBehaviour
         {
             Destroy(collision.gameObject);
             Destroy(projectile);
+            controller.EnemyDestroyed();
         }
         if (collision.gameObject.tag == "Finish")
         {

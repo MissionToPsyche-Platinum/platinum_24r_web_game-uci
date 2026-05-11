@@ -8,9 +8,6 @@ public class Enemy : MonoBehaviour
     int maxTicks = 12;
     float speed = 0.5f;
 
-    // public GameObject enemy;
-    // public GameObject enemyProjectile;
-    // public GameObject enemyProjectileClone;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,15 +33,5 @@ public class Enemy : MonoBehaviour
             timer = 0;
             numMovements += 1;
         }
-
-        // fireEnemyProjectile();
     }
-
-    // void fireEnemyProjectile()
-    // {
-    //     if (Random.Range(0f, 750f) < 1)
-    //     {
-    //         enemyProjectileClone = Instantiate(enemyProjectile, new Vector3(enemy.transform.position.x, enemy.transform.position.y - 0.8f, 0), enemy.transform.rotation) as GameObject;
-    //     }
-    // }
 }

@@ -5,7 +5,7 @@ public class SpaceInvadersController : MinigameController
 {
     private bool _running;
     private int pointsPerEnemy = 10;
-    private int winBonus = 500;
+    private int winBonus = 50;
     private int lossPenalty = 20;
     public Text scoreText;
 

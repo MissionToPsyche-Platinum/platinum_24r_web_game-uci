@@ -32,6 +32,14 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 0.28444445
       objectReference: {fileID: 0}
+    - target: {fileID: 1436005071727972856, guid: fd95c143ed34e2648bd27329ecc2fcc7, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436005071727972856, guid: fd95c143ed34e2648bd27329ecc2fcc7, type: 3}
+      propertyPath: m_Constraints
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1733593915761866395, guid: fd95c143ed34e2648bd27329ecc2fcc7, type: 3}
       propertyPath: m_Size.x
       value: 0.09211424
@@ -954,7 +962,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6128029027701684659, guid: fd95c143ed34e2648bd27329ecc2fcc7, type: 3}
       propertyPath: m_Name
-      value: Player Variant
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6128029027701684659, guid: fd95c143ed34e2648bd27329ecc2fcc7, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7124456829171998635, guid: fd95c143ed34e2648bd27329ecc2fcc7, type: 3}
       propertyPath: m_Size.x

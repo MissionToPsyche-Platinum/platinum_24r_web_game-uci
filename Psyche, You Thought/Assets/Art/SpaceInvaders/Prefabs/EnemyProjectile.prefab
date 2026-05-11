@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1403012601536752258}
   - component: {fileID: 2710395908996317742}
-  - component: {fileID: 5613880479501449999}
   - component: {fileID: -2933351331907474340}
   - component: {fileID: -1038965151241314192}
+  - component: {fileID: 8404297012045189749}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: EnemyProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4845588667659372000}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -0.0133, y: -2.7605, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.39, z: 2}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.09, y: 0.16714288, z: 0.857143}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &2710395908996317742
 SpriteRenderer:
   serializedVersion: 2
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 3a8268215f28e744a8a6e506eaf8b579, type: 3}
+  m_Sprite: {fileID: 3757369626631605276, guid: 19dfa53c4790f2e4ba15208161498d04, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,19 +94,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5613880479501449999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4845588667659372000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c4808464f3a6f14ab3678307612d798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  projectile: {fileID: 4845588667659372000}
 --- !u!61 &-2933351331907474340
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,7 +132,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.44, y: 0.66}
+    oldSize: {x: 1.1, y: 1.46}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -180,3 +167,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &8404297012045189749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4845588667659372000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66af843f2b43b8e44af2056c68407b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  enemyProjectile: {fileID: 4845588667659372000}

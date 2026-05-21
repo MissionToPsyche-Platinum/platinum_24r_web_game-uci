@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class MatchCardsController : MinigameController
 {
@@ -46,6 +47,8 @@ public class MatchCardsController : MinigameController
         GetCards();
         AddListeners();
         AddCardFronts();
+        Shuffle(cardFronts);
+        gameGuesses = 6;
     }
 
     void GetCards() {
@@ -89,15 +92,46 @@ public class MatchCardsController : MinigameController
             secondGuessCard = cardFronts[secondGuessIndex].name;
             cards[secondGuessIndex].image.sprite = cardFronts[secondGuessIndex];
 
-            if (firstGuessCard == secondGuessCard) {
-                Debug.Log("yay");
-            } else {
-                Debug.Log("nay");
-            }
+            countGuesses++;
 
+            StartCoroutine(CheckIfCardsMatch());
         }
 
             Debug.Log("haha jonathan you are clicking " + name);
+    }
+
+    IEnumerator CheckIfCardsMatch() {
+
+        yield return new WaitForSeconds(1f);
+
+        if (firstGuessCard == secondGuessCard) {
+            yield return new WaitForSeconds(0.5f);
+
+            cards[firstGuessIndex].interactable = false;
+            cards[secondGuessIndex].interactable = false;
+
+            IsGameFinished();
+        } else {
+            yield return new WaitForSeconds(0.5f);
+
+            cards[firstGuessIndex].image.sprite = cardBack;
+            cards[secondGuessIndex].image.sprite = cardBack;
+
+            // deduct a life here
+
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        firstGuess = secondGuess = false;
+    }
+
+    void IsGameFinished() {
+        countCorrectGuesses++;
+
+        if (countCorrectGuesses == gameGuesses) {
+            Debug.Log("Game finished with " + countGuesses + "made");
+        }
     }
 
     private void Update()
@@ -107,6 +141,15 @@ public class MatchCardsController : MinigameController
         // TODO
 
         Finish();
+    }
+
+    void Shuffle(List<Sprite> cardList) {
+        for (int i = 0; i < cards.Count; i++) {
+            Sprite temp = cardList[i];
+            int randomIndex = Random.Range(i, cards.Count);
+            cardList[i] = cardList[randomIndex];
+            cardList[randomIndex] = temp;
+        }
     }
 
     

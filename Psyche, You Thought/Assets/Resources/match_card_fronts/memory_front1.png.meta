@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f8c2212f598fc7a458f9c3e36e92cc5a
+guid: 6c3a4bd7a32f2b847a02c53c7ccab6e2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2561269831397949476
-    second: psyche memory front_0
+      213: -2326094234508388841
+    second: psyche memory front1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: psyche memory front_0
+      name: psyche memory front1
       rect:
         serializedVersion: 2
         x: 0
@@ -121,15 +121,15 @@ TextureImporter:
         width: 200
         height: 200
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cdfb99598aa847cd0800000000000000
-      internalID: -2561269831397949476
+      spriteID: 7161b0e2e9d08bfd0800000000000000
+      internalID: -2326094234508388841
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2e1bbca1aeb08334d80e473a17f4859a
     internalID: 0
     vertices: []
     indices: 
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      psyche memory front_0: -2561269831397949476
+      psyche memory front1: -2326094234508388841
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

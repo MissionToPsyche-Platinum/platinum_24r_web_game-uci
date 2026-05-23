@@ -7,25 +7,31 @@ using System.Collections;
 public class MatchCardsController : MinigameController
 {
     private bool _running;
+    private bool _win;
 
     [SerializeField]
     private Sprite cardBack;
 
+
+    public Sprite lostLife;
     public Sprite[] frontImages;
     public List<Sprite> cardFronts = new List<Sprite>();
-
     public List<Button> cards = new List<Button>();
+
+    public List<Image> lives = new List<Image>();
 
     private bool firstGuess, secondGuess;
     private int countGuesses;
     private int countCorrectGuesses;
     private int gameGuesses;
+    private int lifeCount;
 
     private int firstGuessIndex, secondGuessIndex;
     private string firstGuessCard, secondGuessCard;
 
     private void Awake() {
-        frontImages = Resources.LoadAll<Sprite>("match_card_fronts");
+        frontImages = Resources.LoadAll<Sprite>("match_card_game/match_card_fronts");
+        lostLife = Resources.LoadAll<Sprite>("match_card_game")[0];
     }
 
     public override void StartMinigame()
@@ -37,18 +43,31 @@ public class MatchCardsController : MinigameController
 
         Debug.Log("[MatchCardsController] Minigame started.");
 
-        //generate cards?
-        //fill in positions
-
-        //for every card: pick a position. if it's taken, reroll. if not, claim the position
-
-        // TODO
-
         GetCards();
+        GetLives();
         AddListeners();
         AddCardFronts();
         Shuffle(cardFronts);
         gameGuesses = 6;
+        lifeCount = 5;
+    }
+
+    void GetLives() {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("MatchCardLife");
+
+        for (int i = 0; i < objects.Length; i++)
+        {
+            lives.Add(objects[i].GetComponent<Image>());
+        }
+    }
+
+    void DeductLife() {
+        lives[lifeCount - 1].sprite = lostLife;
+        lifeCount--;
+
+        if (lifeCount == 0) {
+            Finish();
+        }
     }
 
     void GetCards() {
@@ -111,13 +130,14 @@ public class MatchCardsController : MinigameController
             cards[secondGuessIndex].interactable = false;
 
             IsGameFinished();
+
         } else {
             yield return new WaitForSeconds(0.5f);
 
             cards[firstGuessIndex].image.sprite = cardBack;
             cards[secondGuessIndex].image.sprite = cardBack;
 
-            // deduct a life here
+            DeductLife();
 
         }
 
@@ -130,15 +150,15 @@ public class MatchCardsController : MinigameController
         countCorrectGuesses++;
 
         if (countCorrectGuesses == gameGuesses) {
+            _win = true;
             Debug.Log("Game finished with " + countGuesses + "made");
+            Finish();
         }
     }
 
     private void Update()
     {
         if (!_running) return;
-
-        // TODO
 
         Finish();
     }
@@ -156,10 +176,16 @@ public class MatchCardsController : MinigameController
     private void Finish()
     {
         _running = false;
-        
-        // TODO
+        int losePenalty = 0;
 
-        Debug.Log("[MatchCardsController] Completed with [stats here].");
-        ReturnToGame(bonus: minigameScore, penalty: 0); // temp
+        if (_win) {
+            minigameScore = 100 * lifeCount;
+        } else {
+            minigameScore = 0;
+            losePenalty = -100;
+        }
+
+        Debug.Log("[MatchCardsController] Completed with minigameScore: " + minigameScore + " and losePenalty: " + losePenalty);
+        ReturnToGame(bonus: minigameScore, penalty: losePenalty);
     }
 }

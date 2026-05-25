@@ -105,16 +105,18 @@ public class MatchCardsController : MinigameController
             firstGuessIndex = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
             firstGuessCard = cardFronts[firstGuessIndex].name;
             cards[firstGuessIndex].image.sprite = cardFronts[firstGuessIndex];
-            cards[firstGuessIndex].interactable = false;
-        } else if (!secondGuess) {
-            secondGuess = true;
-            secondGuessIndex = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
-            secondGuessCard = cardFronts[secondGuessIndex].name;
-            cards[secondGuessIndex].image.sprite = cardFronts[secondGuessIndex];
-            cards[secondGuessIndex].interactable = false;
-            countGuesses++;
 
-            StartCoroutine(CheckIfCardsMatch());
+        } else if (!secondGuess) {
+            secondGuessIndex = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
+            
+            if (secondGuessIndex != firstGuessIndex) {
+                secondGuess = true;
+                secondGuessCard = cardFronts[secondGuessIndex].name;
+                cards[secondGuessIndex].image.sprite = cardFronts[secondGuessIndex];
+                countGuesses++;
+                StartCoroutine(CheckIfCardsMatch());
+            }
+            
         }
     }
 
@@ -134,9 +136,6 @@ public class MatchCardsController : MinigameController
 
             cards[firstGuessIndex].image.sprite = cardBack;
             cards[secondGuessIndex].image.sprite = cardBack;
-
-            cards[firstGuessIndex].interactable = true;
-            cards[secondGuessIndex].interactable = true;
 
             DeductLife();
 

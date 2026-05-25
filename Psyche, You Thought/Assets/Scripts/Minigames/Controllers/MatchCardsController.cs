@@ -105,18 +105,17 @@ public class MatchCardsController : MinigameController
             firstGuessIndex = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
             firstGuessCard = cardFronts[firstGuessIndex].name;
             cards[firstGuessIndex].image.sprite = cardFronts[firstGuessIndex];
+            cards[firstGuessIndex].interactable = false;
         } else if (!secondGuess) {
             secondGuess = true;
             secondGuessIndex = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
             secondGuessCard = cardFronts[secondGuessIndex].name;
             cards[secondGuessIndex].image.sprite = cardFronts[secondGuessIndex];
-
+            cards[secondGuessIndex].interactable = false;
             countGuesses++;
 
             StartCoroutine(CheckIfCardsMatch());
         }
-
-            Debug.Log("haha jonathan you are clicking " + name);
     }
 
     IEnumerator CheckIfCardsMatch() {
@@ -124,7 +123,6 @@ public class MatchCardsController : MinigameController
         yield return new WaitForSeconds(1f);
 
         if (firstGuessCard == secondGuessCard) {
-            yield return new WaitForSeconds(0.5f);
 
             cards[firstGuessIndex].interactable = false;
             cards[secondGuessIndex].interactable = false;
@@ -137,11 +135,12 @@ public class MatchCardsController : MinigameController
             cards[firstGuessIndex].image.sprite = cardBack;
             cards[secondGuessIndex].image.sprite = cardBack;
 
+            cards[firstGuessIndex].interactable = true;
+            cards[secondGuessIndex].interactable = true;
+
             DeductLife();
 
         }
-
-        yield return new WaitForSeconds(0.5f);
 
         firstGuess = secondGuess = false;
     }
@@ -151,7 +150,6 @@ public class MatchCardsController : MinigameController
 
         if (countCorrectGuesses == gameGuesses) {
             _win = true;
-            Debug.Log("Game finished with " + countGuesses + "made");
             Finish();
         }
     }

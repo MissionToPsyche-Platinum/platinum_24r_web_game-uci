@@ -8,10 +8,11 @@ public class BirdScript : MonoBehaviour
     public float flapStrength;
     public LogicScript logic;
     public bool birdIsAlive = true;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        myRigidBody.gravityScale = 0;
     }
 
     // Update is called once per frame
@@ -19,6 +20,7 @@ public class BirdScript : MonoBehaviour
     {
         if (UnityEngine.InputSystem.Keyboard.current.spaceKey.wasPressedThisFrame && birdIsAlive)
         {
+            myRigidBody.gravityScale = 4.5f;
             myRigidBody.linearVelocity = Vector2.up * flapStrength;
         }
     }

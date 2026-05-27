@@ -7,11 +7,12 @@ TagManager:
   - MatchCardLife
   - MatchCard
   - Enemy
+  - Logic
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ship
   - Water
   - UI
   - 

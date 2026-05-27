@@ -14,6 +14,8 @@ public class LogicScript : MonoBehaviour
     {
         playerScore++;
         scoreText.text = playerScore.ToString();
+        FlappyBirdController controller = FindObjectOfType<FlappyBirdController>();
+        controller.AddScore(playerScore);
     }
     public void EndGame()
     {

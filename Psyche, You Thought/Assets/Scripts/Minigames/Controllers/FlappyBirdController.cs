@@ -23,6 +23,11 @@ public class FlappyBirdController : MinigameController
 
         Finish();
     }
+    public void AddScore(int score)
+    {
+        minigameScore = score;
+    }
+
 
 
     public void Finish()
@@ -30,8 +35,15 @@ public class FlappyBirdController : MinigameController
         _running = false;
 
         // TODO
-
-        Debug.Log("[FlappyBirdController] Completed with [stats here].");
-        ReturnToGame(bonus: minigameScore, penalty: 0); // temp
+        if (minigameScore >= 20) // temp win condition
+        {
+            Debug.Log("[FlappyBirdController] Completed. Score: " + minigameScore);
+            ReturnToGame(bonus: minigameScore, penalty: 0);
+        }
+        else
+        {
+            Debug.Log("[FlappyBirdController] Failed. Score: " + minigameScore);
+            ReturnToGame(bonus: 0, penalty: minigameScore);
+        }
     }
 }

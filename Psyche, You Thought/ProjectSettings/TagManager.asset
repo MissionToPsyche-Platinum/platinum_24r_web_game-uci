@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MatchCardLife
   - MatchCard
+  - Enemy
   layers:
   - Default
   - TransparentFX

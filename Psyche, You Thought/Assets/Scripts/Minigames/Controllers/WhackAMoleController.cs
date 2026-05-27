@@ -6,7 +6,7 @@ using TMPro;
 public class WhackAMoleController : MinigameController
 {
     [Header("Config")]
-    [SerializeField] private float gameDuration = 30f;
+    [SerializeField] private float gameDuration = 20f;
     [SerializeField] private float spawnInterval = 1.2f; // seconds between spawns
     [SerializeField] private float targetActiveTime = 1.5f; // how long a target stays up
     [SerializeField] private int pointsPerHit = 5;
@@ -24,7 +24,6 @@ public class WhackAMoleController : MinigameController
 
     public override void StartMinigame()
     {
-        Finish(); // TEMP
         minigameType = MinigameType.WhackAMole;
         minigameScore = 0;
         progress = 0;
@@ -87,8 +86,7 @@ public class WhackAMoleController : MinigameController
 
         _activeSlots[slot] = true;
         targetButtons[slot].gameObject.SetActive(true);
-        // TODO: play pop-up animation
-
+        StartCoroutine(PopUpAnimation(targetButtons[slot].transform));
         StartCoroutine(RetractAfterDelay(slot, targetActiveTime));
     }
 
@@ -110,7 +108,7 @@ public class WhackAMoleController : MinigameController
 
         AddPoints(pointsPerHit);
         DeactivateSlot(slot);
-        // TODO: play hit animation / particle effect
+        StartCoroutine(HitAnimation(targetButtons[slot].transform, slot));
     }
 
     private void DeactivateSlot(int slot)
@@ -118,7 +116,52 @@ public class WhackAMoleController : MinigameController
         _activeSlots[slot] = false;
         if (targetButtons != null && slot < targetButtons.Length)
             targetButtons[slot].gameObject.SetActive(false);
-        // TODO: play retract animation
+    }
+
+    private IEnumerator PopUpAnimation(Transform t)
+    {
+        // Squash on entry: wide and flat, then spring to normal
+        float duration = 0.25f;
+        float elapsed = 0f;
+
+        t.localScale = new Vector3(1.3f, 0.6f, 1f); // squash wide
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / duration;
+
+            // Overshoot spring: stretch tall then settle
+            float scaleX = Mathf.Lerp(1.3f, 1f, progress);
+            float scaleY = progress < 0.5f
+                ? Mathf.Lerp(0.6f, 1.2f, progress / 0.5f)   // stretch up
+                : Mathf.Lerp(1.2f, 1f, (progress - 0.5f) / 0.5f); // settle
+
+            t.localScale = new Vector3(scaleX, scaleY, 1f);
+            yield return null;
+        }
+
+        t.localScale = Vector3.one;
+    }
+
+    private IEnumerator HitAnimation(Transform t, int slot)
+    {
+        // Quick squash down on hit, then deactivate
+        float duration = 0.12f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / duration;
+            float scaleX = Mathf.Lerp(1f, 1.4f, progress); // splat wide
+            float scaleY = Mathf.Lerp(1f, 0.4f, progress); // squash flat
+            t.localScale = new Vector3(scaleX, scaleY, 1f);
+            yield return null;
+        }
+
+        t.localScale = Vector3.one;
+        DeactivateSlot(slot);
     }
 
     // ── Finish ────────────────────────────────────────────────────────────────

@@ -99,6 +99,9 @@ public class StoryOverlayUI : MonoBehaviour
         _beatReady = false;
         _typewriterDone = false;
 
+        if (nameBadge) nameBadge.SetActive(false);
+        if (speakerNameText) speakerNameText.text = "";
+
         // Portrait
         bool hasPortrait = !string.IsNullOrEmpty(beat.portraitKey);
         if (portraitImage)
@@ -109,9 +112,11 @@ public class StoryOverlayUI : MonoBehaviour
         }
 
         // Speaker name
-        bool hasName = !string.IsNullOrEmpty(beat.speakerName);
-        if (nameBadge) nameBadge.SetActive(hasName);
-        if (speakerNameText && hasName) speakerNameText.text = beat.speakerName;
+        if (!string.IsNullOrEmpty(beat.speakerName))
+        {
+            if (nameBadge) nameBadge.SetActive(true);
+            if (speakerNameText) speakerNameText.text = beat.speakerName;
+        }
 
         // Typewriter
         if (continuePrompt) continuePrompt.SetActive(false);

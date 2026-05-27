@@ -15,8 +15,8 @@ public class MissionProgressBarUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI percentText;
 
     [Header("Bar Geometry")]
-    [SerializeField] private float barLeftX = -400f; // X of left edge (Earth) in local space
-    [SerializeField] private float barRightX =  400f; // X of right edge (Psyche)
+    [SerializeField] private float barLeftX = -530f; // X of left edge (Earth) in local space
+    [SerializeField] private float barRightX =  530f; // X of right edge (Psyche)
 
     [Header("Animate")]
     [SerializeField] private float fillDuration = 0.6f;
@@ -67,7 +67,14 @@ public class MissionProgressBarUI : MonoBehaviour
     private void ApplyFill(float t)
     {
         // Fill image
-        if (barFill) barFill.fillAmount = Mathf.Clamp01(t);
+        if (barFill) {
+            float fullWidth = barFill.rectTransform.parent
+                .GetComponent<RectTransform>().rect.width;
+            barFill.rectTransform.sizeDelta = new Vector2(
+                Mathf.Clamp01(t) * fullWidth,
+                barFill.rectTransform.sizeDelta.y
+            );
+        }
 
         // Ship icon position
         if (shipIcon)

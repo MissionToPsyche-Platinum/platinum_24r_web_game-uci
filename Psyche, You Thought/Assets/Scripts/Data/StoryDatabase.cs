@@ -119,23 +119,23 @@ public static class StoryDatabase
         new RandomEvent
         {
             title        = "Solar Flare Warning",
-            iconText     = "☀️",
+            iconText     = "!",
             description  = "A moderate solar flare has erupted. Psyche's sensors are briefly scrambled. Mission Control says: 'Don't panic. We're panicking for you.'",
             buttonLabel  = "Acknowledged",
-            progressDelta = 0
+            progressDelta = -1
         },
         new RandomEvent
         {
             title        = "Micrometeoroid Hit",
-            iconText     = "💥",
+            iconText     = "!",
             description  = "A tiny rock the size of a grape just put a hole in the thermal blanket. The spacecraft is fine. The blanket is having a rough day.",
             buttonLabel  = "Patch it",
-            progressDelta = 0
+            progressDelta = -1
         },
         new RandomEvent
         {
             title        = "Cosmic Shortcut",
-            iconText     = "🌀",
+            iconText     = "?",
             description  = "The Vor'kaleth have nudged Psyche's trajectory with a gravitational assist. You're ahead of schedule!",
             buttonLabel  = "Thank them",
             progressDelta = 1
@@ -143,7 +143,7 @@ public static class StoryDatabase
         new RandomEvent
         {
             title        = "Signal from JPL",
-            iconText     = "📡",
+            iconText     = "?",
             description  = "Mission Control wants to know if you remembered the lucky peanuts. You did, right?",
             buttonLabel  = "...Of course",
             progressDelta = 0
@@ -151,7 +151,7 @@ public static class StoryDatabase
         new RandomEvent
         {
             title        = "Alien Fan Mail",
-            iconText     = "📬",
+            iconText     = "?",
             description  = "The Vor'kaleth have transmitted 47 terabytes of what appears to be fan art of the Psyche spacecraft. ARIA is uploading it to NASA's server.",
             buttonLabel  = "Wholesome",
             progressDelta = 0
@@ -159,7 +159,7 @@ public static class StoryDatabase
         new RandomEvent
         {
             title        = "Navigation Check",
-            iconText     = "🧭",
+            iconText     = "!",
             description  = "Star trackers are nominal. Trajectory confirmed. Psyche orbital insertion approaching. Time to make it count.",
             buttonLabel  = "Let's go",
             progressDelta = 0
@@ -167,7 +167,7 @@ public static class StoryDatabase
         new RandomEvent
         {
             title        = "Power Surge",
-            iconText     = "⚡",
+            iconText     = "!",
             description  = "The solar arrays produced 120% expected power this orbit. The extra energy went directly into ARIA's 'philosophical subroutines.'",
             buttonLabel  = "That explains it",
             progressDelta = 0
@@ -175,7 +175,7 @@ public static class StoryDatabase
         new RandomEvent
         {
             title        = "Deep Space Detection",
-            iconText     = "🔭",
+            iconText     = "?",
             description  = "The gamma-ray spectrometer picked up something unusual. Probably nothing. Definitely not a second Psyche. Probably.",
             buttonLabel  = "Log it",
             progressDelta = 0

@@ -20,7 +20,7 @@ public class HandFanUI : MonoBehaviour
     [SerializeField] private float fanAngleDegrees = 40f; // total spread of the fan
     [SerializeField] private float arcRadius = 320f; // distance from pivot to card origin
     [SerializeField] private float hoverLift = 40f; // Y lift when hovering a card
-    [SerializeField] private float cardScale = 1f;
+    [SerializeField] private float cardScale = 1;
 
     [Header("Animation")]
     [SerializeField] private float dealDuration = 0.08f; // stagger delay per card
@@ -66,10 +66,14 @@ public class HandFanUI : MonoBehaviour
 
             Vector3 restPos = new Vector3(x, y, 0f);
 
+            rt.pivot = new Vector2(0.5f, 0f); // pivot at bottom-center
+
+            rt.anchorMin = new Vector2(0.5f, 0f);
+            rt.anchorMax = new Vector2(0.5f, 0f);
+
             rt.anchoredPosition = restPos;
             rt.localRotation = Quaternion.Euler(0f, 0f, -angle);
             rt.localScale = Vector3.one * cardScale;
-            rt.pivot = new Vector2(0.5f, 0f); // pivot at bottom-centre
 
             _restPositions.Add(restPos);
             _restAngles.Add(-angle);
@@ -115,13 +119,28 @@ public class HandFanUI : MonoBehaviour
 
     // ── Card Visuals ──────────────────────────────────────────────────────────
 
+    private static string MinigameLabel(MinigameType minigameType)
+    {
+        switch (minigameType)
+        {
+            case MinigameType.None : return "";
+            case MinigameType.FlappyBird : return "Flappy Propulsion";
+            case MinigameType.MatchCards : return "Match Mach";
+            case MinigameType.WhackAMole : return "Whack An Alien";
+            case MinigameType.SpaceInvaders : return "Invaders of Space";
+            case MinigameType.RhythmQTE : return "Starry Beats";
+            case MinigameType.RollingDice : return "Meteor Dice";
+            default: return "";
+        }
+    }
+
     private void PopulateCardVisuals(GameObject go, AnswerCard card)
     {
         // Find named child TMP fields (set up in the prefab)
-        TextMeshProUGUI titleTMP = FindChildTMP(go, "CardTitle");
-        TextMeshProUGUI descTMP = FindChildTMP(go, "CardDesc");
-        TextMeshProUGUI statsTMP = FindChildTMP(go, "CardStats");
-        TextMeshProUGUI tagTMP = FindChildTMP(go, "CardTag");
+        TextMeshProUGUI titleTMP = FindChildTMP(go, "Title");
+        TextMeshProUGUI descTMP = FindChildTMP(go, "Body");
+        TextMeshProUGUI statsTMP = FindChildTMP(go, "Stats");
+        TextMeshProUGUI tagTMP = FindChildTMP(go, "Tag");
 
         if (titleTMP) titleTMP.text = card.title;
         if (descTMP) descTMP.text = card.description;
@@ -131,13 +150,13 @@ public class HandFanUI : MonoBehaviour
             string effStars = BuildStars(card.effectiveness, "★", "☆", 5);
             string chaosStars = BuildStars(card.chaos, "★", "☆", 5);
             string accStars = BuildStars(card.scientificAccuracy, "★", "☆", 5);
-            statsTMP.text = $"Eff: {effStars}  Chaos: {chaosStars}  Sci: {accStars}";
+            statsTMP.text = $"Effectiveness: {effStars}\nChaos: {chaosStars}\nScientific Accuracy: {accStars}";
         }
 
         if (tagTMP)
         {
             tagTMP.gameObject.SetActive(card.IsSpecial());
-            if (card.IsSpecial()) tagTMP.text = $"⚡ {card.associatedMinigame}";
+            if (card.IsSpecial()) tagTMP.text = $"✦ {MinigameLabel(card.associatedMinigame)}";
         }
     }
 
@@ -173,6 +192,11 @@ public class HandFanUI : MonoBehaviour
 
         GameObject go = _cardObjects[index];
         if (!go) yield break;
+
+        if (up)
+            go.transform.SetAsLastSibling();
+        else
+            go.transform.SetSiblingIndex(index);
 
         RectTransform rt = go.GetComponent<RectTransform>();
         if (!rt) yield break;

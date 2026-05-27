@@ -32,6 +32,7 @@ public class JudgingPanelUI : MonoBehaviour
     [SerializeField] private float closeDuration = 0.25f;
 
     private PromptCard _currentPrompt;
+    private bool _isOpen = false;
 
 
     private void Awake()
@@ -55,8 +56,9 @@ public class JudgingPanelUI : MonoBehaviour
 
     private void Open(PromptCard prompt)
     {
+        StopAllCoroutines();
         _currentPrompt = prompt;
-        gameObject.SetActive(true);
+
         if (panelRoot) panelRoot.SetActive(true);
 
         PopulateAlien();
@@ -78,6 +80,7 @@ public class JudgingPanelUI : MonoBehaviour
 
     private void Close()
     {
+        StopAllCoroutines();
         StartCoroutine(AnimateClose());
     }
 
@@ -85,15 +88,17 @@ public class JudgingPanelUI : MonoBehaviour
 
     private void OnCardPicked(int handIndex)
     {
+        Debug.Log($"[JudgingPanel] OnCardPicked({handIndex})");
         StartCoroutine(PlayCardAndConfirm(handIndex));
     }
 
     private IEnumerator PlayCardAndConfirm(int handIndex)
     {
-        if (handFan) handFan.enabled = false;
         if (speechText) speechText.text = GetAlienReaction();
 
         yield return new WaitForSeconds(0.8f);
+
+        if (handFan) handFan.enabled = false;
 
         GameManager.Instance?.HumanConfirmCard(handIndex);
     }
@@ -164,7 +169,7 @@ public class JudgingPanelUI : MonoBehaviour
             if (rt) rt.localScale = Vector3.Lerp(startScale, endScale, t);
             yield return null;
         }
-        backgroundOverlay.alpha = 0.6f;
+        backgroundOverlay.alpha = 1f;
         if (rt) rt.localScale = endScale;
     }
 
@@ -182,6 +187,6 @@ public class JudgingPanelUI : MonoBehaviour
 
         handFan?.ClearHand();
         if (panelRoot)  panelRoot.SetActive(false);
-        gameObject.SetActive(false);
+        GameManager.Instance?.NotifyJudgingClosed();
     }
 }

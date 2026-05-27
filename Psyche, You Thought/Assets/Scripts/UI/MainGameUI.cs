@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 /// <summary>
 /// Root controller for the Main scene canvas.
@@ -42,6 +43,8 @@ public class MainGameUI : MonoBehaviour
         if (resultBanner) resultBanner.SetActive(false);
         RefreshScore();
         RefreshRound();
+
+        GameManager.Instance?.BeginLoop();
     }
 
     // ── Event Handlers ────────────────────────────────────────────────────────
@@ -54,8 +57,10 @@ public class MainGameUI : MonoBehaviour
 
         // Banner shows winner regardless
         if (resultBannerText)
-            resultBannerText.text = winner == GameManager.Instance?.humanPlayer
-                ? "✨ You won the round!"
+            resultBannerText.text = GameManager.Instance?.unlimitedRounds == true 
+            ? "Onwards!" 
+            : winner == GameManager.Instance?.humanPlayer
+                ? "★ You won the round! ★"
                 : $"{winner.playerName} won the round.";
     }
 
@@ -66,7 +71,7 @@ public class MainGameUI : MonoBehaviour
 
     private void HandlePhaseChanged(RoundPhase phase)
     {
-        if (phaseText) phaseText.text = phase.ToString();
+        if (phaseText) phaseText.text = PhaseLabel(phase);
     }
 
     private void HandleRoundResult()
@@ -81,13 +86,16 @@ public class MainGameUI : MonoBehaviour
     private void RefreshScore()
     {
         if (scoreText && GameManager.Instance?.humanPlayer != null)
-            scoreText.text = $"Score: {GameManager.Instance.humanPlayer.CurrentScore}";
+            scoreText.text = $"{GameManager.Instance.humanPlayer.CurrentScore} pts";
     }
 
     private void RefreshRound()
     {
-        if (roundText && GameManager.Instance != null)
-            roundText.text = $"Round {GameManager.Instance.currentRound} / {GameManager.Instance.totalRounds}";
+        if (roundText && GameManager.Instance != null) {
+            roundText.text = GameManager.Instance?.unlimitedRounds == true
+            ? $"{Math.Max(GameManager.Instance.missionGoal - GameManager.Instance.missionProgress, 0)} Gm away"
+            : $"Round {GameManager.Instance.currentRound} / {GameManager.Instance.totalRounds}";
+        }
     }
 
     private System.Collections.IEnumerator ShowBannerCoroutine()
@@ -96,5 +104,21 @@ public class MainGameUI : MonoBehaviour
         resultBanner.SetActive(true);
         yield return new WaitForSeconds(bannerDisplayTime);
         resultBanner.SetActive(false);
+    }
+
+    private static string PhaseLabel(RoundPhase phase)
+    {
+        switch (phase)
+        {
+            case RoundPhase.DealCards: return "Dealing cards...";
+            case RoundPhase.DisplayScenario: return "A new challenge appears!";
+            case RoundPhase.PickCard: return "Choose your response";
+            case RoundPhase.SubmitCard: return "Submitting...";
+            case RoundPhase.RunMinigame: return "Minigame!";
+            case RoundPhase.JudgeCards: return "The judge deliberates...";
+            case RoundPhase.AwardPoints: return "Verdict!";
+            case RoundPhase.NextRound: return "Next round incoming...";
+            default: return "";
+        }
     }
 }

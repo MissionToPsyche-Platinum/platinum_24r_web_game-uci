@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public int missionGoal = 100;
     public int pointsPerRound = 10;
+    public bool unlimitedRounds = false;
+    public bool soloMode = false;
 
     // ── State ─────────────────────────────────────────────────────────────────
     [HideInInspector] public Settings currentSettings;
@@ -53,6 +55,10 @@ public class GameManager : MonoBehaviour
     private bool _storyDismissed;
     private bool _eventDismissed;
 
+    // Judging handshake
+    private bool _judgingClosed;
+    public void NotifyJudgingClosed() => _judgingClosed = true;
+
     // ── Events ────────────────────────────────────────────────────────────────
     public delegate void PromptDealtHandler(PromptCard prompt);
     public delegate void CardSubmittedHandler(Player player, AnswerCard card);
@@ -77,6 +83,12 @@ public class GameManager : MonoBehaviour
     public static event System.Action OnJudgingClose; // close judging overlay
     public static event System.Action OnRoundResultReady; // brief result flash
 
+    private bool _minigameInProgress;
+    private bool _loopRunning;
+
+    private enum LoopState { Idle, RunningRound, WaitingForStory, WaitingForEvent, WaitingForJudging, WaitingForMinigame, Done }
+    private LoopState _state = LoopState.Idle;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -96,11 +108,17 @@ public class GameManager : MonoBehaviour
         storyProgress = 0;
         missionProgress = 0;
 
-        if (humanPlayer == null) BuildDefaultPlayers();
-        if (dealer == null) BuildDefaultDealer();
-        if (judge == null) BuildDefaultJudge();
+        BuildDefaultPlayers();
+        BuildDefaultDealer();
+        BuildDefaultJudge();
 
         SceneNavigator.GoToMain();
+    }
+
+    public void BeginLoop() {
+        if (_loopRunning) return;
+        _loopRunning = true;
+        _state = LoopState.Idle;
         StartCoroutine(RunGameLoop());
     }
 
@@ -131,9 +149,12 @@ public class GameManager : MonoBehaviour
         // Story intro (progress = 0)
         yield return StartCoroutine(MaybeShowStory());
 
-        while (currentRound < totalRounds)
+        while ( unlimitedRounds || currentRound < totalRounds)
         {
             yield return StartCoroutine(RunRound());
+
+            while (_state == LoopState.WaitingForMinigame) yield return null;
+
             currentRound++;
             storyProgress++;
             OnRoundEnd?.Invoke(currentRound);
@@ -141,6 +162,8 @@ public class GameManager : MonoBehaviour
             // Advance mission progress
             missionProgress = Mathf.Clamp(missionProgress + pointsPerRound, 0, missionGoal);
             OnMissionProgress?.Invoke(missionProgress, missionGoal);
+
+            if (missionProgress >= missionGoal) break;
 
             // Story beat if milestone hit
             yield return StartCoroutine(MaybeShowStory());
@@ -168,12 +191,23 @@ public class GameManager : MonoBehaviour
         judge.SetPreferences();
         OnPromptDealt?.Invoke(_currentPrompt);
 
-        // Open the judging overlay — human picks from within it
+        // Open the judging overlay, human picks from within it
         SetPhase(RoundPhase.PickCard);
+        _judgingClosed = false;
         OnJudgingOpen?.Invoke(_currentPrompt);
         yield return StartCoroutine(WaitForHumanPick());
-        OnJudgingClose?.Invoke();
 
+        if (_state == LoopState.WaitingForMinigame)
+        yield break;
+
+        // OnJudgingClose?.Invoke();
+        // while (!_judgingClosed) yield return null;
+
+        yield return StartCoroutine(FinishRound());
+    }
+
+    private IEnumerator FinishRound()
+    {
         // AI picks
         foreach (Player ai in aiPlayers)
         {
@@ -216,9 +250,27 @@ public class GameManager : MonoBehaviour
 
         while (!_humanPickReady) yield return null;
 
-        if (_humanPickedCard.IsSpecial())
-            yield return StartCoroutine(HandleMinigame(humanPlayer, _humanPickedCard));
+        if (_humanPickedCard.IsSpecial()) {
+            // _minigameInProgress = true;
+            _state = LoopState.WaitingForMinigame;
+            GameSessionData.LastMinigameResult = null;
+            SetPhase(RoundPhase.RunMinigame);
+            SceneNavigator.GoToMinigame(_humanPickedCard.associatedMinigame);
+            yield break;
+        }
+        //     yield return StartCoroutine(HandleMinigame(humanPlayer, _humanPickedCard));
 
+        // SetPhase(RoundPhase.SubmitCard);
+        // int baseScore = judge.CalculateScore(_humanPickedCard, _currentPrompt);
+        // int mgBonus = GameSessionData.LastMinigameResult?.NetPoints ?? 0;
+        // GameSessionData.LastMinigameResult = null;
+        // _submissions.Add((humanPlayer, _humanPickedCard, baseScore + mgBonus));
+        // OnCardSubmitted?.Invoke(humanPlayer, _humanPickedCard);
+        SubmitHumanCard();
+    }
+
+    private void SubmitHumanCard()
+    {
         SetPhase(RoundPhase.SubmitCard);
         int baseScore = judge.CalculateScore(_humanPickedCard, _currentPrompt);
         int mgBonus = GameSessionData.LastMinigameResult?.NetPoints ?? 0;
@@ -237,14 +289,20 @@ public class GameManager : MonoBehaviour
         _storyDismissed = false;
         OnStoryBeats?.Invoke(beats);
         while (!_storyDismissed) yield return null;
+
+        yield return new WaitForSeconds(0.3f);
     }
 
     private IEnumerator ShowRandomEvent()
     {
         RandomEvent evt = StoryDatabase.GetRandomEvent();
+        Debug.Log($"[GameManager] ShowRandomEvent: {evt?.title ?? "NULL"}");
         _eventDismissed = false;
         OnRandomEvent?.Invoke(evt);
+        Debug.Log($"[GameManager] Waiting for event dismiss...");
         while (!_eventDismissed) yield return null;
+        Debug.Log($"[GameManager] Event dismissed.");
+        yield return new WaitForSeconds(0.3f);
 
         // Apply any progress delta from the event
         if (evt.progressDelta != 0)
@@ -276,6 +334,28 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"[GameManager] Minigame complete: {result.minigameType}, net {result.NetPoints}");
         GameSessionData.LastMinigameResult = result;
+        humanPlayer.ApplyMinigameResults(result);
+        SceneNavigator.GoToMain();
+        StartCoroutine(ContinueRoundAfterMinigame());
+
+        // if (_minigameInProgress)
+        // {
+        //     _minigameInProgress = false;
+        //     SceneNavigator.GoToMain();
+        //     StartCoroutine(ContinueRoundAfterMinigame());
+        // }
+    }
+
+    private IEnumerator ContinueRoundAfterMinigame()
+    {
+        yield return new WaitForSeconds(0.1f); // let scene finish loading
+
+        SubmitHumanCard();
+        OnJudgingClose?.Invoke();
+        while (!_judgingClosed) yield return null;
+
+        yield return StartCoroutine(FinishRound());
+        _state = LoopState.Idle;
     }
 
     // ── End ───────────────────────────────────────────────────────────────────
@@ -283,7 +363,9 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         Debug.Log("[GameManager] Game over.");
+        _loopRunning = false;
         OnGameEnd?.Invoke();
+        Debug.Log($"[GameManager] Loop exited. Round {currentRound}/{totalRounds}, progress {missionProgress}/{missionGoal}");
         SceneNavigator.GoToEnd();
     }
 
@@ -305,15 +387,22 @@ public class GameManager : MonoBehaviour
     private void BuildDefaultPlayers()
     {
         humanPlayer = new Player(0, "Player 1", PlayerType.Human);
-        aiPlayers = new List<Player>
-        {
-            new Player(1, "AI Zara",  PlayerType.AI),
-            new Player(2, "AI Blaze", PlayerType.AI),
+        aiPlayers = new List<Player>();
+
+        if (!soloMode) {
+            aiPlayers.Add(new Player(1, "AI Zara",  PlayerType.AI));
+            aiPlayers.Add(new Player(2, "AI Blaze", PlayerType.AI));
         };
     }
 
     private void BuildDefaultDealer() => dealer = new Dealer(CardDatabase.GetAllAnswerCards());
-    private void BuildDefaultJudge() => judge  = new Judge(Preferences.Random(), CardDatabase.GetAllPromptCards());
+    // private void BuildDefaultJudge() => judge  = new Judge(Preferences.Random(), CardDatabase.GetAllPromptCards());
+    private void BuildDefaultJudge()
+    {
+        var promptCards = CardDatabase.GetAllPromptCards();
+        Debug.Log($"[GameManager] Building judge with {promptCards.Count} prompt cards.");
+        judge = new Judge(Preferences.Random(), promptCards);
+    }
 }
 
 public static class GameSessionData

@@ -153,13 +153,6 @@ public class MatchCardsController : MinigameController
         }
     }
 
-    private void Update()
-    {
-        if (!_running) return;
-
-        Finish();
-    }
-
     void Shuffle(List<Sprite> cardList) {
         for (int i = 0; i < cards.Count; i++) {
             Sprite temp = cardList[i];

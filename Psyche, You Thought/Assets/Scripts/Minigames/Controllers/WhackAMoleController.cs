@@ -6,30 +6,31 @@ using TMPro;
 public class WhackAMoleController : MinigameController
 {
     [Header("Config")]
-    [SerializeField] private float gameDuration    = 30f;
-    [SerializeField] private float spawnInterval   = 1.2f; // seconds between spawns
+    [SerializeField] private float gameDuration = 30f;
+    [SerializeField] private float spawnInterval = 1.2f; // seconds between spawns
     [SerializeField] private float targetActiveTime = 1.5f; // how long a target stays up
-    [SerializeField] private int   pointsPerHit    = 5;
-    [SerializeField] private int   penaltyPerMiss  = 1;
+    [SerializeField] private int pointsPerHit = 5;
+    [SerializeField] private int penaltyPerMiss = 1;
 
     [Header("UI References")]
-    [SerializeField] private Button[]          targetButtons;  // assign hole-buttons in Inspector
-    [SerializeField] private TextMeshProUGUI   timerText;
-    [SerializeField] private TextMeshProUGUI   scoreText;
+    [SerializeField] private Button[] targetButtons; // assign hole-buttons in Inspector
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
     private float _elapsed;
-    private bool  _running;
-    private int   _missCount;
-    private bool[] _activeSlots;  // tracks which holes currently have a target
+    private bool _running;
+    private int _missCount;
+    private bool[] _activeSlots; // tracks which holes currently have a target
 
     public override void StartMinigame()
     {
-        minigameType  = MinigameType.WhackAMole;
+        Finish(); // TEMP
+        minigameType = MinigameType.WhackAMole;
         minigameScore = 0;
-        progress      = 0;
-        _elapsed      = 0f;
-        _running      = true;
-        _missCount    = 0;
+        progress = 0;
+        _elapsed = 0f;
+        _running = true;
+        _missCount = 0;
 
         _activeSlots = new bool[targetButtons != null ? targetButtons.Length : 0];
 

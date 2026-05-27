@@ -48,6 +48,8 @@ public class Dealer
                 Debug.LogWarning("[Dealer] Deck and discard both exhausted.");
                 return;
             }
+            if (player.CurrentHand.Count == HandSize) return;
+            
             AnswerCard card = _deck[0];
             _deck.RemoveAt(0);
             player.DrawCard(card);

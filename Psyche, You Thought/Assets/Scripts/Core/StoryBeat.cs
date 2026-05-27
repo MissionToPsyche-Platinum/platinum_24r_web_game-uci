@@ -36,7 +36,7 @@ public class RandomEvent
     public string description;
 
     /// <summary>Icon emoji or short string shown in the popup header.</summary>
-    public string iconText = "🛸";
+    public string iconText = "!";
 
     /// <summary>Label on the dismiss button.</summary>
     public string buttonLabel = "Got it";

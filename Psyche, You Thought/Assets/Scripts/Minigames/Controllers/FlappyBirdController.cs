@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class FlappyBirdController : MinigameController
 {
-    private bool  _running;
+    private bool _running;
 
     public override void StartMinigame()
     {
-        minigameType   = MinigameType.FlappyBird;
-        minigameScore  = 0;
-        progress       = 0;
-        _running       = true;
+        minigameType = MinigameType.FlappyBird;
+        minigameScore = 0;
+        progress = 0;
+        _running = true;
 
         Debug.Log("[FlappyBirdController] Minigame started.");
         // TODO
@@ -24,11 +24,11 @@ public class FlappyBirdController : MinigameController
         Finish();
     }
 
-    
-    private void Finish()
+
+    public void Finish()
     {
         _running = false;
-        
+
         // TODO
 
         Debug.Log("[FlappyBirdController] Completed with [stats here].");

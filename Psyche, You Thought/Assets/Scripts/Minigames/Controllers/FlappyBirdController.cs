@@ -21,7 +21,7 @@ public class FlappyBirdController : MinigameController
 
         // TODO
 
-        Finish();
+        // Finish();
     }
     public void AddScore(int score)
     {

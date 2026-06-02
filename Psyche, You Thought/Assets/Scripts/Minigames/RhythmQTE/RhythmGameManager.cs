@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RhythmGameManager : MinigameController
 {
@@ -20,23 +21,23 @@ public class RhythmGameManager : MinigameController
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Keyboard.current.aKey.isPressed)
             Hit("A");
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Keyboard.current.sKey.isPressed)
             Hit("S");
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Keyboard.current.dKey.isPressed)
             Hit("D");
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Keyboard.current.fKey.isPressed)
             Hit("F");
 
         scoreText.text = "Score: " + score;
 
         gameTimer += Time.deltaTime;
 
-        if(score >= 1000)
+        if (score >= 1000)
         {
             resultText.text = "Mission Success!";
             ReturnToGame(bonus: 10);

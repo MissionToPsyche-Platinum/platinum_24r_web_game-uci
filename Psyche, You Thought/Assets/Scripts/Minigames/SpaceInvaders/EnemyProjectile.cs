@@ -13,7 +13,7 @@ public class EnemyProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(new Vector3(0, -5 * Time.deltaTime, 0));
+        transform.Translate(new Vector3(0, -7 * Time.deltaTime, 0));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

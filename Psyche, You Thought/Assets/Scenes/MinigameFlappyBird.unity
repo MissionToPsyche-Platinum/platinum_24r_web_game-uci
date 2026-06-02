@@ -948,7 +948,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -690.9, y: 177.9}
-  m_SizeDelta: {x: 472.8, y: 81.3}
+  m_SizeDelta: {x: 500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1410602208
 MonoBehaviour:
@@ -972,10 +972,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 69
+    m_FontSize: 55
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 5
     m_MaxSize: 149
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -983,7 +983,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Get Over 20!
+  m_Text: 'Use Space to jump
+
+    Get over 20!'
 --- !u!222 &1410602209
 CanvasRenderer:
   m_ObjectHideFlags: 0

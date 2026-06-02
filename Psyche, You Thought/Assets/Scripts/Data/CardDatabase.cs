@@ -6,7 +6,7 @@ using System.Collections.Generic;
 //   MatchCards: Documentation, Reality Rewiring Bay, Powerpoint Presentation, Systems Engineering, Brute Force Calculation
 //   WhackAMole: Spectrometer of Truth, Solar-Powered Shock Trap, Cosmic Chatroom, The Egg Cracks, Magnetic Shield
 //   SpaceInvaders: Jovian Fastball, Solar Panel Nunchucks, Deep Space Blaster, Premature Powers, Too Big to Fail
-//   RhythmQTE: Drum Kit, Deep Space Hotline, Gravitational Wi-Fi, Slow Down...Everything Else
+//   RhythmQTE: Drum Kit, Deep Space Hotline
 //   RollingDice: Lucky Peanuts, Bribery, Big Red Button, No-Fly Zone, Quantum Coin Flip
 
 /// <summary>
@@ -242,8 +242,7 @@ public static class CardDatabase
         new AnswerCard(37,
             "Gravitational Wi-Fi",
             "By tracking tiny shifts in radio waves, we can map Psyche's gravity, mass, and rotation—basically using deep-space Wi-Fi to weigh an asteroid. Also handy for detecting invisible forces... like sneaky aliens.",
-            5, 2, 0, 7,
-            MinigameType.RhythmQTE),
+            5, 2, 0, 7),
 
         new AnswerCard(38,
             "Spectrometer of Truth",
@@ -306,8 +305,7 @@ public static class CardDatabase
         new AnswerCard(48,
             "Slow Down...Everything Else",
             "Use pure adrenaline to move so fast that time itself starts to bend! Now that you have time, figure out how to actually fix the issue.",
-            4, 5, 0, 9,
-            MinigameType.RhythmQTE),
+            4, 5, 0, 9),
 
         new AnswerCard(49,
             "Titanium Repair Kit",

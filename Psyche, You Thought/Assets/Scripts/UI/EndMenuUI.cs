@@ -14,7 +14,7 @@ public class EndMenuUI : MonoBehaviour
     private void Start()
     {
         int score = GameManager.Instance?.humanPlayer?.CurrentScore ?? 0;
-        if (finalScoreText) finalScoreText.text = $"You travelled {GameManager.Instance?.missionGoal} Gm!";
+        if (finalScoreText) finalScoreText.text = $"You travelled {GameManager.Instance?.missionGoal} Gm and earned {score} points!";
 
         if (playAgainButton) playAgainButton.onClick.AddListener(OnPlayAgain);
         if (mainMenuButton) mainMenuButton.onClick.AddListener(OnMainMenu);

@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 
 // ── MinigameType assignments ──────────────────────────────────────────────────────────
-//   FlappyBird: Redshift Accelerator, Psyche Cannonball
-//   MatchCards: Documentation
-//   WhackAMole: Spectrometer of Truth, Solar-Powered Shock Trap
+//   FlappyBird: Redshift Accelerator, Psyche Cannonball, Solar Electric Propulsion
+//   MatchCards: Documentation, Reality Rewiring Bay, Powerpoint Presentation
+//   WhackAMole: Spectrometer of Truth, Solar-Powered Shock Trap, Cosmic Chatroom
 //   SpaceInvaders: Jovian Fastball, Solar Panel Nunchucks, Deep Space Blaster
-//   RhythmQTE: Drum Kit
+//   RhythmQTE: Drum Kit, Deep Space Hotline
 //   RollingDice: Lucky Peanuts, Tap Out, Bribery, Big Red Button
 
 /// <summary>
@@ -83,7 +83,8 @@ public static class CardDatabase
         new AnswerCard(8,
             "PowerPoint Presentation",
             "A well-placed PowerPoint can convince physics or even an alien civilization that everything is going exactly as planned. Bonus points for adding unnecessary animations.",
-            2, 1, 0, 3),
+            2, 1, 0, 3,
+            MinigameType.MatchCards),
 
         new AnswerCard(9,
             "Descope",
@@ -109,7 +110,8 @@ public static class CardDatabase
         new AnswerCard(13,
             "Reality Rewiring Ray",
             "Adjusts the fundamental laws of physics... for better or worse. Who needs gravity all the time, anyway?",
-            3, 5, 1, 9),
+            3, 5, 1, 9,
+            MinigameType.MatchCards),
 
         new AnswerCard(14,
             "Hyper-Evolved Goldfish",
@@ -218,7 +220,8 @@ public static class CardDatabase
         new AnswerCard(34,
             "Solar Electric Propulsion",
             "Psyche's Hall-effect thrusters fire out charged xenon ions, creating a beautiful blue glow... and about as much thrust as holding an AA battery. Slow? Yes. Cool? Absolutely. Also, if an intruder shows up, we can lightly push them away over the course of several weeks.",
-            2, 1, 0, 3),
+            2, 1, 0, 3,
+            MinigameType.FlappyBird),
 
         new AnswerCard(35,
             "Multispectral Selfie Stick",
@@ -250,7 +253,8 @@ public static class CardDatabase
         new AnswerCard(40,
             "Deep Space Hotline",
             "Psyche stays in touch using four antennas and NASA's Deep Space Network. Perfect for sending science data, receiving commands, and desperately calling home when things go very wrong.",
-            3, 1, 0, 4),
+            3, 1, 0, 4,
+            MinigameType.RhythmQTE),
 
         new AnswerCard(41,
             "Too Big to Fail",
@@ -281,7 +285,8 @@ public static class CardDatabase
         new AnswerCard(46,
             "Cosmic Chatroom",
             "Using Psyche's antennas and NASA's Deep Space Network, this system sends messages not just to Earth, but to the farthest reaches of space. Whether it's science data or chatting with aliens, Psyche's got you covered—unless it's spam.",
-            4, 2, 0, 6),
+            4, 2, 0, 6,
+            MinigameType.WhackAMole),
 
         new AnswerCard(47,
             "Planetary Swing",

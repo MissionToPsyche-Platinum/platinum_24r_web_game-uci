@@ -51,4 +51,5 @@ public class SpaceInvaderShip : MonoBehaviour
             projectileClone = Instantiate(projectile, new Vector3(player.transform.position.x, player.transform.position.y + 0.8f, 0), player.transform.rotation) as GameObject;
         }
     }
+
 }

@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 
 // ── MinigameType assignments ──────────────────────────────────────────────────────────
-//   FlappyBird: Redshift Accelerator, Psyche Cannonball, Solar Electric Propulsion
-//   MatchCards: Documentation, Reality Rewiring Bay, Powerpoint Presentation
-//   WhackAMole: Spectrometer of Truth, Solar-Powered Shock Trap, Cosmic Chatroom
-//   SpaceInvaders: Jovian Fastball, Solar Panel Nunchucks, Deep Space Blaster
-//   RhythmQTE: Drum Kit, Deep Space Hotline
-//   RollingDice: Lucky Peanuts, Tap Out, Bribery, Big Red Button
+//   FlappyBird: Redshift Accelerator, Psyche Cannonball, Solar Electric Propulsion, Pocket-Sized Wormhole, Planetary Swing
+//   MatchCards: Documentation, Reality Rewiring Bay, Powerpoint Presentation, Systems Engineering, Brute Force Calculation
+//   WhackAMole: Spectrometer of Truth, Solar-Powered Shock Trap, Cosmic Chatroom, The Egg Cracks, Magnetic Shield
+//   SpaceInvaders: Jovian Fastball, Solar Panel Nunchucks, Deep Space Blaster, Premature Powers, Too Big to Fail
+//   RhythmQTE: Drum Kit, Deep Space Hotline, Gravitational Wi-Fi, Slow Down...Everything Else
+//   RollingDice: Lucky Peanuts, Bribery, Big Red Button, No-Fly Zone, Quantum Coin Flip
 
 /// <summary>
 /// Stat scale: each filled star = 1 pt, each empty icon = 0 pt (max 5).
@@ -33,7 +33,7 @@ public static class CardDatabase
 
     public static PromptCard GetPromptCardById(int id)
         => _promptCards.Find(c => c.id == id);
-    
+
     // ── Answer Cards ──────────────────────────────────────────────────────────
     // Constructor: (id, title, description, effectiveness, chaos, scientificAccuracy, baseScore, minigame)
     // baseScore = effectiveness + chaos + scientificAccuracy
@@ -60,7 +60,8 @@ public static class CardDatabase
         new AnswerCard(4,
             "Systems Engineering",
             "When in doubt, throw a flowchart at it. With enough requirements, trade studies, and design reviews, even an alien invasion can be designed out of existence.",
-            1, 0, 0, 1),
+            1, 0, 0, 1,
+            MinigameType.MatchCards),
 
         new AnswerCard(5,
             "Documentation",
@@ -77,8 +78,7 @@ public static class CardDatabase
         new AnswerCard(7,
             "Tap Out",
             "It works in Jiu Jitsu, why not in deep space? If the problem's too tough, just gracefully tap out and hope Mission Control has your back.",
-            0, 2, 0, 2,
-            MinigameType.RollingDice),
+            0, 2, 0, 2),
 
         new AnswerCard(8,
             "PowerPoint Presentation",
@@ -94,7 +94,8 @@ public static class CardDatabase
         new AnswerCard(10,
             "Premature Powers",
             "The spacecraft confidently taps into the mighty forces of asteroid Psyche—despite being millions of miles away. Maybe it's psychic? Maybe it's just wishful thinking? Either way, with a Massachusetts-sized metal asteroid as its imaginary power source, Psyche is feeling unstoppable.",
-            1, 2, 0, 3),
+            1, 2, 0, 3,
+            MinigameType.SpaceInvaders),
 
         new AnswerCard(11,
             "Starlink Backup Crew",
@@ -121,7 +122,8 @@ public static class CardDatabase
         new AnswerCard(15,
             "No-Fly Zone",
             "Just tell any threats they're not allowed here. Maybe they'll respect space bureaucracy.",
-            0, 2, 0, 2),
+            0, 2, 0, 2,
+            MinigameType.RollingDice),
 
         new AnswerCard(16,
             "Big Red Button",
@@ -137,7 +139,8 @@ public static class CardDatabase
         new AnswerCard(18,
             "The Egg Cracks",
             "Turns out Psyche wasn't just a metal asteroid—it was an egg, and whatever just hatched is very interested in helping...or at least really good at smashing things. Deploy your newfound alien ally to fix the problem!",
-            4, 5, 0, 9),
+            4, 5, 0, 9,
+            MinigameType.WhackAMole),
 
         new AnswerCard(19,
             "The Alcubierre Maneuver",
@@ -147,7 +150,8 @@ public static class CardDatabase
         new AnswerCard(20,
             "Brute Force Calculation",
             "If you throw enough computing power at a problem, it has to solve itself...right? Just pray your processor doesn't melt.",
-            2, 1, 0, 3),
+            2, 1, 0, 3,
+            MinigameType.MatchCards),
 
         new AnswerCard(21,
             "The Boltzmann Brain",
@@ -195,12 +199,14 @@ public static class CardDatabase
         new AnswerCard(29,
             "Quantum Coin Flip",
             "A 50/50 chance of fixing everything... or making it infinitely worse.",
-            3, 3, 0, 6),
+            3, 3, 0, 6,
+            MinigameType.RollingDice),
 
         new AnswerCard(30,
             "Pocket-Sized Wormhole",
             "Finally, an escape plan! Too bad it only works for very small objects.",
-            3, 1, 1, 5),
+            3, 1, 1, 5,
+            MinigameType.FlappyBird),
 
         new AnswerCard(31,
             "Suspiciously Helpful AI",
@@ -236,7 +242,8 @@ public static class CardDatabase
         new AnswerCard(37,
             "Gravitational Wi-Fi",
             "By tracking tiny shifts in radio waves, we can map Psyche's gravity, mass, and rotation—basically using deep-space Wi-Fi to weigh an asteroid. Also handy for detecting invisible forces... like sneaky aliens.",
-            5, 2, 0, 7),
+            5, 2, 0, 7,
+            MinigameType.RhythmQTE),
 
         new AnswerCard(38,
             "Spectrometer of Truth",
@@ -259,7 +266,8 @@ public static class CardDatabase
         new AnswerCard(41,
             "Too Big to Fail",
             "With its solar panels deployed, Psyche stretches 81 feet—about the size of a tennis court. Great for collecting sunlight, terrible for fitting into tight spaces. If something needs swatting, though... we've got reach.",
-            3, 4, 0, 7),
+            3, 4, 0, 7,
+            MinigameType.SpaceInvaders),
 
         new AnswerCard(42,
             "Solar-Powered Shock Trap",
@@ -280,7 +288,8 @@ public static class CardDatabase
         new AnswerCard(45,
             "Magnetic Shield",
             "This magnetometer isn't just looking for ancient fields—it's on high alert, using magnetic forces to keep space debris and intruders at bay.",
-            3, 3, 0, 6),
+            3, 3, 0, 6,
+            MinigameType.WhackAMole),
 
         new AnswerCard(46,
             "Cosmic Chatroom",
@@ -291,12 +300,14 @@ public static class CardDatabase
         new AnswerCard(47,
             "Planetary Swing",
             "Psyche harnesses the gravitational pull of nearby planets to take out space intruders or get around unexpected obstacles. Need to speed up or throw off a space pirate? Just slingshot around a planet for some extra oomph.",
-            5, 5, 0, 10),
+            5, 5, 0, 10,
+            MinigameType.FlappyBird),
 
         new AnswerCard(48,
             "Slow Down...Everything Else",
             "Use pure adrenaline to move so fast that time itself starts to bend! Now that you have time, figure out how to actually fix the issue.",
-            4, 5, 0, 9),
+            4, 5, 0, 9,
+            MinigameType.RhythmQTE),
 
         new AnswerCard(49,
             "Titanium Repair Kit",

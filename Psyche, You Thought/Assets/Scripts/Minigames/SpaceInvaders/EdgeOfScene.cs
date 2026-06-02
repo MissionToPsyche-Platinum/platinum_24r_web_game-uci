@@ -14,12 +14,16 @@ public class EdgeOfScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0f)
+        {
+            return;
+        }
         fireEnemyProjectile();
     }
 
     void fireEnemyProjectile()
     {
-        if (Random.Range(0f, 175f) < 1)
+        if (Random.Range(0f, 120f) < 1)
         {
             float xCoordinate = Random.Range(-8f, 8f);
             enemyProjectileClone = Instantiate(enemyProjectile, new Vector3(xCoordinate, edge.transform.position.y - 0.8f, 0), edge.transform.rotation) as GameObject;

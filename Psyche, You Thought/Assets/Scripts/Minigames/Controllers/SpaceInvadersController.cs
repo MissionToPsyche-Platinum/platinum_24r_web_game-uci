@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class SpaceInvadersController : MinigameController
 {
@@ -8,17 +9,52 @@ public class SpaceInvadersController : MinigameController
     private int winBonus = 50;
     private int lossPenalty = 20;
     public Text scoreText;
+    public Text instructionText;
 
     public override void StartMinigame()
     {
         minigameType = MinigameType.SpaceInvaders;
         minigameScore = 0;
         progress = 0;
-        _running = true;
+        _running = false;
+
         scoreText.text = "Score: " + minigameScore;
 
+        if (instructionText != null)
+        {
+            instructionText.text = "Use arrows to move\nPress Space to shoot\nEliminate aliens and avoid enemy projectiles\n\nMove to start!";
+        }
+
+        Time.timeScale = 0f;
+
+        Debug.Log("[SpaceInvadersController] Minigame loaded. Waiting for player movement.");
+    }
+
+    void Update()
+    {
+        if (!_running)
+        {
+            if (Keyboard.current.upArrowKey.wasPressedThisFrame ||
+                Keyboard.current.rightArrowKey.wasPressedThisFrame ||
+                Keyboard.current.leftArrowKey.wasPressedThisFrame ||
+                Keyboard.current.downArrowKey.wasPressedThisFrame)
+            {
+                BeginGameplay();
+            }
+        }
+    }
+
+    private void BeginGameplay()
+    {
+        _running = true;
+        Time.timeScale = 1f;
+
+        if (instructionText != null)
+        {
+            instructionText.text = "";
+        }
+
         Debug.Log("[SpaceInvadersController] Minigame started.");
-        // TODO
     }
 
     public void EnemyDestroyed()
@@ -46,6 +82,8 @@ public class SpaceInvadersController : MinigameController
     private void Win()
     {
         _running = false;
+        Time.timeScale = 1f;
+
         Debug.Log($"[SpaceInvadersController] Completed. Score: {minigameScore}");
         ReturnToGame(bonus: winBonus, penalty: 0);
     }
@@ -53,6 +91,7 @@ public class SpaceInvadersController : MinigameController
     private void Lose()
     {
         _running = false;
+        Time.timeScale = 1f;
         Debug.Log($"[SpaceInvadersController] Failed. Score: {minigameScore}");
         ReturnToGame(bonus: minigameScore, penalty: lossPenalty);
     }
@@ -61,8 +100,7 @@ public class SpaceInvadersController : MinigameController
     public void Finish()
     {
         _running = false;
-
-        // TODO
+        Time.timeScale = 1f;
 
         Debug.Log("[SpaceInvadersController] Completed with [stats here].");
         ReturnToGame(bonus: minigameScore, penalty: 0); // temp

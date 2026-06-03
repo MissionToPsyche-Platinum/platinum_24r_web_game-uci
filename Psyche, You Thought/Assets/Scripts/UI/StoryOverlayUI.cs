@@ -69,6 +69,7 @@ public class StoryOverlayUI : MonoBehaviour
 
     private IEnumerator RunStory()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.storyOpenSFX);
         // Fade in
         if (overlayRoot) overlayRoot.SetActive(true);
         yield return StartCoroutine(FadeCanvasGroup(0f, 1f, 0.25f));
@@ -158,11 +159,13 @@ public class StoryOverlayUI : MonoBehaviour
 
     private void OnContinue()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
         _beatReady = true;
     }
 
     private void OnSkip()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
         _skipAll = true;
         _beatReady = true;
     }

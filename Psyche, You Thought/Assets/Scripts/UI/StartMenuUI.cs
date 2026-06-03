@@ -62,22 +62,26 @@ public class StartMenuUI : MonoBehaviour
 
     private void OnStartClicked()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
         _settings.Save();
         GameManager.Instance?.StartGame();
     }
 
     private void OnQuitClicked()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
         Application.Quit();
     }
 
     private void ToggleSettings()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
         settingsPanel.SetActive(!settingsPanel.activeSelf);
     }
 
     private void ToggleCredits()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
         creditsPanel.SetActive(!creditsPanel.activeSelf);
     }
 

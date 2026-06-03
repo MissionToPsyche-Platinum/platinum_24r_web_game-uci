@@ -77,6 +77,8 @@ public class MainGameUI : MonoBehaviour
     private void HandleRoundResult()
     {
         if (resultBanner == null) return;
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.nextRoundSFX);
+        
         StopCoroutine(nameof(ShowBannerCoroutine));
         StartCoroutine(nameof(ShowBannerCoroutine));
     }

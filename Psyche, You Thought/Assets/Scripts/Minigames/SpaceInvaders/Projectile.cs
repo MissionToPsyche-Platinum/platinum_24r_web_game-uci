@@ -20,6 +20,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
+            AudioManager.Instance?.PlaySfx(AudioManager.Instance?.hitAlienSFX);
             Destroy(collision.gameObject);
             Destroy(projectile);
             controller.EnemyDestroyed();

@@ -24,6 +24,7 @@ public class WhackAMoleController : MinigameController
 
     public override void StartMinigame()
     {
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.whackAMoleMusic);
         minigameType = MinigameType.WhackAMole;
         minigameScore = 0;
         progress = 0;
@@ -96,6 +97,7 @@ public class WhackAMoleController : MinigameController
         if (_activeSlots[slot]) // still active = player missed
         {
             _missCount++;
+            AudioManager.Instance?.PlaySfx(AudioManager.Instance?.alienHideSFX);
             DeactivateSlot(slot);
         }
     }
@@ -146,6 +148,7 @@ public class WhackAMoleController : MinigameController
 
     private IEnumerator HitAnimation(Transform t, int slot)
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.whackAlienSFX);
         // Quick squash down on hit, then deactivate
         float duration = 0.12f;
         float elapsed = 0f;

@@ -46,11 +46,15 @@ public class EventPopupUI : MonoBehaviour
 
         // Show
         if (popupRoot) popupRoot.SetActive(true);
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.popUpSFX);
         yield return StartCoroutine(AnimateOpen());
 
         // Wait for dismiss
         bool dismissed = false;
-        dismissButton.onClick.AddListener(() => dismissed = true);
+        dismissButton.onClick.AddListener(() => {
+            AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
+            dismissed = true;
+        });
         while (!dismissed) yield return null;
         dismissButton.onClick.RemoveAllListeners();
 

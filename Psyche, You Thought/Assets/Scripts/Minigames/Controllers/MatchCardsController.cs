@@ -41,6 +41,8 @@ public class MatchCardsController : MinigameController
         progress       = 0;
         _running       = true;
 
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.matchCardsMusic);
+
         Debug.Log("[MatchCardsController] Minigame started.");
 
         GetCards();
@@ -64,6 +66,7 @@ public class MatchCardsController : MinigameController
     void DeductLife() {
         lives[lifeCount - 1].sprite = lostLife;
         lifeCount--;
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.lifeLostSFX);
 
         if (lifeCount == 0) {
             Finish();
@@ -99,7 +102,8 @@ public class MatchCardsController : MinigameController
 
     public void PickACard() {
         string name = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name;
-        
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.cardFlipSFX);
+
         if (!firstGuess) {
             firstGuess = true;
             firstGuessIndex = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
@@ -129,10 +133,12 @@ public class MatchCardsController : MinigameController
             cards[firstGuessIndex].interactable = false;
             cards[secondGuessIndex].interactable = false;
 
+            AudioManager.Instance?.PlaySfx(AudioManager.Instance?.matchMadeSFX);
+
             IsGameFinished();
 
         } else {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
 
             cards[firstGuessIndex].image.sprite = cardBack;
             cards[secondGuessIndex].image.sprite = cardBack;

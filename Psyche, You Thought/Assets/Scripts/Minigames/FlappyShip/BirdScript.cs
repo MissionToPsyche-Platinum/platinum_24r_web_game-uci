@@ -20,6 +20,8 @@ public class BirdScript : MonoBehaviour
     {
         if (UnityEngine.InputSystem.Keyboard.current.spaceKey.wasPressedThisFrame && birdIsAlive)
         {
+
+            AudioManager.Instance?.PlaySfx(AudioManager.Instance?.flapSFX);
             myRigidBody.gravityScale = 4.5f;
             myRigidBody.linearVelocity = Vector2.up * flapStrength;
         }

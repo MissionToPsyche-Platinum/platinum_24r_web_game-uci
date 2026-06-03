@@ -99,11 +99,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentSettings = Settings.Load();
+
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.startMenuMusic);
     }
 
     public void StartGame()
     {
         Debug.Log("[GameManager] StartGame()");
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.mainGameMusic);
         currentRound = 0;
         storyProgress = 0;
         missionProgress = 0;
@@ -348,6 +351,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ContinueRoundAfterMinigame()
     {
+        AudioManager.Instance?.StopMusic();
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.mainGameMusic);
         yield return new WaitForSeconds(0.1f); // let scene finish loading
 
         SubmitHumanCard();

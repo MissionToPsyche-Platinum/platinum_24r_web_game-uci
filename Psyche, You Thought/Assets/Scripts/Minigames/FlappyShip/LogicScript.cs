@@ -19,12 +19,15 @@ public class LogicScript : MonoBehaviour
     }
     public void EndGame()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
         FlappyBirdController controller = FindObjectOfType<FlappyBirdController>();
         controller.ReturnToGame();
     }
 
     public void GameOver()
     {
+
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.fallSFX);
         gameOverScreen.SetActive(true);
     }
 }

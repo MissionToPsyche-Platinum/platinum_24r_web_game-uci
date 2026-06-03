@@ -95,6 +95,7 @@ public class JudgingPanelUI : MonoBehaviour
     private IEnumerator PlayCardAndConfirm(int handIndex)
     {
         if (speechText) speechText.text = GetAlienReaction();
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.alienLeaveSFX);
 
         yield return new WaitForSeconds(0.8f);
 
@@ -142,6 +143,7 @@ public class JudgingPanelUI : MonoBehaviour
 
         if (alienImage && alienSprites != null && alienSprites.Length > 0)
             alienImage.sprite = alienSprites[Random.Range(0, alienSprites.Length)];
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.alienGreetSFX);
     }
 
     private string GetAlienIntro() => _introLines[Random.Range(0, _introLines.Length)];

@@ -13,6 +13,8 @@ public class EndMenuUI : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance?.StopMusic();
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.endSceneMusic);
         int score = GameManager.Instance?.humanPlayer?.CurrentScore ?? 0;
         if (finalScoreText) finalScoreText.text = $"You travelled {GameManager.Instance?.missionGoal} Gm and earned {score} points!";
 
@@ -20,6 +22,14 @@ public class EndMenuUI : MonoBehaviour
         if (mainMenuButton) mainMenuButton.onClick.AddListener(OnMainMenu);
     }
 
-    private void OnPlayAgain() => GameManager.Instance?.StartGame();
-    private void OnMainMenu() => SceneNavigator.GoToStart();
+    private void OnPlayAgain()
+    {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
+        GameManager.Instance?.StartGame();
+    }
+    private void OnMainMenu()
+    {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
+        SceneNavigator.GoToStart();
+    }
 }

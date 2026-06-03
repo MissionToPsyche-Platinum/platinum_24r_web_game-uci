@@ -22,12 +22,18 @@ public class DiceBattleGame : MinigameController
         minigameScore = 0;
         progress = 0;
 
+
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.rollingDiceMusic);
+
         UpdateUI();
         battleLogText.text = "Roll the dice to attack!";
     }
 
     public void RollDice()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.clickButtonSFX);
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.diceRollSFX);
+
         StartCoroutine(RollDiceAnimation());
     }
 
@@ -163,6 +169,8 @@ public class DiceBattleGame : MinigameController
 
     IEnumerator EnemyDamageEffect()
     {
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.dealDamageSFX);
+
         Color originalColor = enemyHPText.color;
         Vector3 originalPosition = enemyHPText.transform.localPosition;
 

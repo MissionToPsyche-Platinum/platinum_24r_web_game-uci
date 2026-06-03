@@ -48,6 +48,7 @@ public class SpaceInvaderShip : MonoBehaviour
     {
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
+            AudioManager.Instance?.PlaySfx(AudioManager.Instance?.shootSFX);
             projectileClone = Instantiate(projectile, new Vector3(player.transform.position.x, player.transform.position.y + 0.8f, 0), player.transform.rotation) as GameObject;
         }
     }

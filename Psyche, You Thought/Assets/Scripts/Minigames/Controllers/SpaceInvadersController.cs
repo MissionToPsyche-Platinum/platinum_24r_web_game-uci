@@ -23,6 +23,8 @@ public class SpaceInvadersController : MinigameController
         progress = 0;
         _running = false;
 
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.spaceInvadersMusic);
+
         scoreText.text = "Score: " + minigameScore;
 
         if (instructionText != null)

@@ -11,6 +11,8 @@ public class FlappyBirdController : MinigameController
         progress = 0;
         _running = true;
 
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.flappyBirdMusic);
+
         Debug.Log("[FlappyBirdController] Minigame started.");
         // TODO
     }

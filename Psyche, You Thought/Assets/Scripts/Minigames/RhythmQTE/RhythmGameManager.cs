@@ -16,6 +16,9 @@ public class RhythmGameManager : MinigameController
         minigameScore = 0;
         progress = 0;
 
+
+        AudioManager.Instance?.PlayMusic(AudioManager.Instance?.rhythmQTEMusic);
+
         resultText.text = "";
     }
 
@@ -46,6 +49,8 @@ public class RhythmGameManager : MinigameController
 
     void Hit(string keyPressed)
     {
+
+        AudioManager.Instance?.PlaySfx(AudioManager.Instance?.notePressedSFX);
         NoteMovement[] notes = FindObjectsByType<NoteMovement>(
             FindObjectsSortMode.None
         );
